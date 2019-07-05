@@ -23,6 +23,8 @@ setup(
     packages=["logging_prometheus"],
     test_suite="tests",
     long_description=LONG_DESCRIPTION,
+    tests_require=['pytest'],
+    setup_requires=["pytest-runner"],
     install_requires=[
         "prometheus_client>=0.0.8",
     ],
