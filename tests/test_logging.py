@@ -7,11 +7,9 @@ import logging_prometheus
 class TestLoggingPrometheus(unittest.TestCase):
     def test_rootLoggerExports(self):
         logging.error('There was an error.')
-
-        self.assertEquals(
-            1, REGISTRY.get_sample_value('python_logging_messages_total',
+        assert REGISTRY.get_sample_value('python_logging_messages_total',
                                          labels={'logger': 'test_levels',
-                                                 'level': 'ERROR'}))
+                                                 'level': 'ERROR'}) == 1
 
     def test_all_levels(self):
         logger = logging.getLogger('test_levels')
@@ -22,10 +20,8 @@ class TestLoggingPrometheus(unittest.TestCase):
         logger.error('error message')
         logger.critical('critical message')
         for level in ('DEBUG', 'INFO', 'WARNING', 'ERROR', 'CRITICAL'):
-            self.assertEquals(
-                1, REGISTRY.get_sample_value('python_logging_messages_total',
-                                             labels={'logger': 'test_levels',
-                                                     'level': level}))
+            lables = {'logger': 'test_levels', 'level': level}
+            assert REGISTRY.get_sample_value('python_logging_messages_total', labels=lables) == 1
 
     def test_setLevel(self):
         logger = logging.getLogger('test_setLevel')
@@ -36,16 +32,7 @@ class TestLoggingPrometheus(unittest.TestCase):
         logger.error('error message')
         logger.critical('critical message')
         for level in ('DEBUG', 'INFO', 'WARNING', 'ERROR'):
-            self.assertEquals(
-                None,
-                REGISTRY.get_sample_value('python_logging_messages_total',
-                                          labels={'logger': 'test_setLevel',
-                                                  'level': level}))
-        self.assertEquals(
-            1, REGISTRY.get_sample_value('python_logging_messages_total',
-                                         labels={'logger': 'test_levels',
-                                                 'level': 'CRITICAL'}))
-
-
-if __name__ == '__main__':
-    unittest.main()
+            lables = {'logger': 'test_setLevel', 'level': level}
+            assert REGISTRY.get_sample_value('python_logging_messages_total', labels=lables) is None
+            lables = {'logger': 'test_levels', 'level': 'CRITICAL'}
+            assert REGISTRY.get_sample_value('python_logging_messages_total', labels=lables) == 1
