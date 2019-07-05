@@ -10,4 +10,6 @@ script:
   - pycodestyle logging_prometheus/
   - pycodestyle tests/
   - pycodestyle setup.py
-  - python setup.py test
+  - coverage run --source=logging_prometheus setup.py test
+after_success:
+  - coveralls
