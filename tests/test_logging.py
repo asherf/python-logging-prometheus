@@ -16,7 +16,7 @@ class TestLoggingPrometheus(unittest.TestCase):
         logger.setLevel(logging.DEBUG)
         logger.debug('debug message')
         logger.info('info message')
-        logger.warn('warn message')
+        logger.warning('warn message')
         logger.error('error message')
         logger.critical('critical message')
         for level in ('DEBUG', 'INFO', 'WARNING', 'ERROR', 'CRITICAL'):
@@ -28,7 +28,7 @@ class TestLoggingPrometheus(unittest.TestCase):
         logger.setLevel(logging.CRITICAL)
         logger.debug('debug message')
         logger.info('info message')
-        logger.warn('warn message')
+        logger.warning('warn message')
         logger.error('error message')
         logger.critical('critical message')
         for level in ('DEBUG', 'INFO', 'WARNING', 'ERROR'):
